@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
+import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 import edu.ncsu.csc216.wolf_scheduler.course.Course;
 import edu.ncsu.csc216.wolf_scheduler.scheduler.WolfScheduler;
 
@@ -522,7 +523,7 @@ public class WolfSchedulerGUI extends JFrame {
 		 * Performs an action based on the given {@link ActionEvent}.
 		 * @param e user event that triggers an action.
 		 */
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e){
 			if (e.getSource() == btnAddCourse) {
 				int row = tableCatalog.getSelectedRow();
 				if (row == -1  || row == tableCatalog.getRowCount()) {
@@ -534,7 +535,7 @@ public class WolfSchedulerGUI extends JFrame {
 						}
 					} catch (IllegalArgumentException iae) {
 						JOptionPane.showMessageDialog(WolfSchedulerGUI.this, iae.getMessage());
-					}
+					} 
 				}
 				updateTables();
 			} else if (e.getSource() == btnRemoveCourse) {

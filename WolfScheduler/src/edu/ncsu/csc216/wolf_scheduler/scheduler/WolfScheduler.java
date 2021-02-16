@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.ncsu.csc216.wolf_scheduler.io.ActivityRecordIO;
 import edu.ncsu.csc216.wolf_scheduler.io.CourseRecordIO;
 import edu.ncsu.csc216.wolf_scheduler.course.Activity;
+import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 import edu.ncsu.csc216.wolf_scheduler.course.Course;
 import edu.ncsu.csc216.wolf_scheduler.course.Event;
 
@@ -121,23 +122,29 @@ public class WolfScheduler {
 	 * @param name the name of course to be added
 	 * @param section the section of course to be added
 	 * @return true if course can be added, false if it cannot
+	 * @throws ConflictException if there is a schedule conflict with the course being added
 	 */
-	public boolean addCourseToSchedule(String name, String section) {
+	public boolean addCourseToSchedule(String name, String section)throws ConflictException {
 		Course addcourse = getCourseFromCatalog(name, section);
 		if(addcourse == null) {
 			return false;
 		}
-		for(int i = 0; i < schedule.size(); i++) {
-			if(addcourse.isDuplicate(schedule.get(i))) {
-				throw new IllegalArgumentException("You are already enrolled in " + addcourse.getName());
+		try {
+			for(int i = 0; i < schedule.size(); i++) {
+				addcourse.checkConflict(schedule.get(i));
+				if(addcourse.isDuplicate(schedule.get(i))) {
+					throw new IllegalArgumentException("You are already enrolled in " + addcourse.getName());
+				}
 			}
-		}
-		if("A".equals(addcourse.getMeetingDays())) {
+			if("A".equals(addcourse.getMeetingDays())) {
+				schedule.add(addcourse);
+				return true;
+			}
 			schedule.add(addcourse);
 			return true;
+		} catch(ConflictException e) {
+			throw new ConflictException("The course could not be added due to conflict.");
 		}
-		schedule.add(addcourse);
-		return true;
 	}
 	
 	/**
@@ -149,22 +156,28 @@ public class WolfScheduler {
 	 * @param weeklyRepeat the weekly repeat of event to add
 	 * @param eventDetails the details of event to add
 	 * @return true if event can be added
+	 * @throws ConflictException if there is a schedule conflict with the event being added
 	 */
-	public boolean addEventToSchedule(String title, String meetingDays, int startTime, int endTime, int weeklyRepeat, String eventDetails) {
+	public boolean addEventToSchedule(String title, String meetingDays, int startTime, int endTime, int weeklyRepeat, String eventDetails) throws ConflictException{
 		if(title == null || "".equals(title) || startTime > endTime) {
 			throw new IllegalArgumentException("The event is Invalid");
 		}
-		if(meetingDays == null || "".equals(meetingDays)) {
-			throw new IllegalArgumentException("The event must occur on at least one day.");
-		}
-		Event addevent = new Event(title, meetingDays, startTime, endTime, weeklyRepeat, eventDetails);
-		for(int i = 0; i < schedule.size(); i++) {
-			if(addevent.isDuplicate(schedule.get(i))) {
-				throw new IllegalArgumentException("You have already created an event called " + addevent.getTitle());
+		try {
+			if(meetingDays == null || "".equals(meetingDays)) {
+				throw new IllegalArgumentException("The event must occur on at least one day.");
 			}
+			Event addevent = new Event(title, meetingDays, startTime, endTime, weeklyRepeat, eventDetails);
+			for(int i = 0; i < schedule.size(); i++) {
+				addevent.checkConflict(schedule.get(i));
+				if(addevent.isDuplicate(schedule.get(i))) {
+					throw new IllegalArgumentException("You have already created an event called " + addevent.getTitle());
+				}
+			}
+			schedule.add(addevent);
+			return true;
+		} catch(ConflictException e) {
+			throw new ConflictException("The event could not be added due to conflict.");
 		}
-		schedule.add(addevent);
-		return true;
 	}
 
 	/**
