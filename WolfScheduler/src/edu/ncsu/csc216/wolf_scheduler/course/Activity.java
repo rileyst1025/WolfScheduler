@@ -18,8 +18,10 @@ public abstract class Activity implements Conflict {
 		if(!"A".equals(this.getMeetingDays()) || !"A".equals(conact.getMeetingDays())) {
 			for(int i = 0; i < this.getMeetingDays().length(); i++) {
 				if(conact.getMeetingDays().indexOf(this.getMeetingDays().charAt(i)) != -1 &&
-						(conact.getStartTime() >= this.getStartTime() && conact.getStartTime() <= this.getEndTime() || 
-						conact.getEndTime() >= this.getStartTime() && conact.getEndTime() <= this.getEndTime())) {
+						((conact.getStartTime() >= this.getStartTime() && conact.getStartTime() <= this.getEndTime() || 
+						conact.getEndTime() >= this.getStartTime() && conact.getEndTime() <= this.getEndTime()) || 
+						(this.getStartTime() >= conact.getStartTime() && this.getStartTime() <= conact.getEndTime() || 
+						this.getEndTime() >= conact.getStartTime() && this.getEndTime() <= conact.getEndTime()))) {
 					throw new ConflictException();
 				}
 			}
