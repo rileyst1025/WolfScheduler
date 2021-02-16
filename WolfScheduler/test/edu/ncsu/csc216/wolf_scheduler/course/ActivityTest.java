@@ -68,9 +68,23 @@ public class ActivityTest {
 	        assertEquals("Incorrect meeting string for this Activity.", "MW 1:30PM-2:45PM", a1.getMeetingString());
 	        assertEquals("Incorrect meeting string for possibleConflictingActivity.", "M 2:45PM-3:30PM", a2.getMeetingString());
 	    }
+	    try {
+	        a2.checkConflict(a1);
+	        fail("A ConflictException was NOT thrown when two Activities had a day/time conflict.");
+	    } catch (ConflictException e) {
+	        assertEquals("Incorrect meeting string for this Activity.", "MW 1:30PM-2:45PM", a1.getMeetingString());
+	        assertEquals("Incorrect meeting string for possibleConflictingActivity.", "M 2:45PM-3:30PM", a2.getMeetingString());
+	    }
 	    a2.setMeetingDaysAndTime("M", 1230, 1330);
 	    try {
 	        a1.checkConflict(a2);
+	        fail("A ConflictException was NOT thrown when two Activities had a day/time conflict.");
+	    } catch (ConflictException e) {
+	        assertEquals("Incorrect meeting string for this Activity.", "MW 1:30PM-2:45PM", a1.getMeetingString());
+	        assertEquals("Incorrect meeting string for possibleConflictingActivity.", "M 12:30PM-1:30PM", a2.getMeetingString());
+	    }
+	    try {
+	        a2.checkConflict(a1);
 	        fail("A ConflictException was NOT thrown when two Activities had a day/time conflict.");
 	    } catch (ConflictException e) {
 	        assertEquals("Incorrect meeting string for this Activity.", "MW 1:30PM-2:45PM", a1.getMeetingString());
