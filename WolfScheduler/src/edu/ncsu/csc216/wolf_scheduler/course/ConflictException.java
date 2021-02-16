@@ -25,6 +25,6 @@ public class ConflictException extends Exception {
 	 * Creates a Conflict Exception with the default message "Schedule conflict"
 	 */
 	public ConflictException() {
-		super("Schedule conflict.");
+		super("Schedule conflict");
 	}
 }
