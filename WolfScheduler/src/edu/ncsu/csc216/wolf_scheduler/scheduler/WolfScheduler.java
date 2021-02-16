@@ -142,7 +142,7 @@ public class WolfScheduler {
 			schedule.add(addcourse);
 			return true;
 		} catch(ConflictException e) {
-			throw new IllegalArgumentException("The course could not be added due to conflict.");
+			throw new IllegalArgumentException("The course cannot be added due to a conflict.");
 		}
 	}
 	
@@ -167,15 +167,15 @@ public class WolfScheduler {
 			}
 			Event addevent = new Event(title, meetingDays, startTime, endTime, weeklyRepeat, eventDetails);
 			for(int i = 0; i < schedule.size(); i++) {
-				addevent.checkConflict(schedule.get(i));
 				if(addevent.isDuplicate(schedule.get(i))) {
 					throw new IllegalArgumentException("You have already created an event called " + addevent.getTitle());
 				}
+				addevent.checkConflict(schedule.get(i));
 			}
 			schedule.add(addevent);
 			return true;
 		} catch(ConflictException e) {
-			throw new IllegalArgumentException("The event could not be added due to conflict.");
+			throw new IllegalArgumentException("The event cannot not be added due to a conflict.");
 		}
 	}
 
