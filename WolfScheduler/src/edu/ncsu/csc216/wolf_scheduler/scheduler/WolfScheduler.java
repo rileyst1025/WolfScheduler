@@ -155,7 +155,6 @@ public class WolfScheduler {
 	 * @param weeklyRepeat the weekly repeat of event to add
 	 * @param eventDetails the details of event to add
 	 * @return true if event can be added
-	 * @throws ConflictException if there is a schedule conflict with the event being added
 	 */
 	public boolean addEventToSchedule(String title, String meetingDays, int startTime, int endTime, int weeklyRepeat, String eventDetails) {
 		if(title == null || "".equals(title) || startTime > endTime) {
