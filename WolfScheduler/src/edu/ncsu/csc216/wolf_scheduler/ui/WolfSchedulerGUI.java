@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -523,7 +524,7 @@ public class WolfSchedulerGUI extends JFrame {
 		 * Performs an action based on the given {@link ActionEvent}.
 		 * @param e user event that triggers an action.
 		 */
-		public void actionPerformed(ActionEvent e){
+		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnAddCourse) {
 				int row = tableCatalog.getSelectedRow();
 				if (row == -1  || row == tableCatalog.getRowCount()) {
@@ -535,7 +536,13 @@ public class WolfSchedulerGUI extends JFrame {
 						}
 					} catch (IllegalArgumentException iae) {
 						JOptionPane.showMessageDialog(WolfSchedulerGUI.this, iae.getMessage());
-					} 
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ConflictException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				updateTables();
 			} else if (e.getSource() == btnRemoveCourse) {
@@ -650,6 +657,9 @@ public class WolfSchedulerGUI extends JFrame {
 						message = "The event is invalid";
 					}
 					JOptionPane.showMessageDialog(WolfSchedulerGUI.this, message);
+				} catch (ConflictException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 			
