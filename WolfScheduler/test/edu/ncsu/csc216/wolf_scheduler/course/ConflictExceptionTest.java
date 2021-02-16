@@ -29,7 +29,7 @@ public class ConflictExceptionTest {
 	@Test
 	public void testConflictException() {
 		ConflictException ce = new ConflictException();
-	    assertEquals("Schedule conflict", ce.getMessage());
+	    assertEquals("Schedule conflict.", ce.getMessage());
 	}
 
 }
