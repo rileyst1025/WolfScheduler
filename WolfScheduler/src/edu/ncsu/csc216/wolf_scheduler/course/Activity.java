@@ -15,11 +15,13 @@ public abstract class Activity implements Conflict {
 	 */
 	@Override
 	public void checkConflict(Activity conact) throws ConflictException {
-		for(int i = 0; i < this.getMeetingDays().length(); i++) {
-			if(conact.getMeetingDays().indexOf(this.getMeetingDays().charAt(i)) != -1 &&
-					(conact.getStartTime() >= this.getStartTime() && conact.getStartTime() <= this.getEndTime() || 
-					conact.getEndTime() >= this.getStartTime() && conact.getEndTime() <= this.getEndTime())) {
-				throw new ConflictException();
+		if(!"A".equals(this.getMeetingDays()) || !"A".equals(conact.getMeetingDays())) {
+			for(int i = 0; i < this.getMeetingDays().length(); i++) {
+				if(conact.getMeetingDays().indexOf(this.getMeetingDays().charAt(i)) != -1 &&
+						(conact.getStartTime() >= this.getStartTime() && conact.getStartTime() <= this.getEndTime() || 
+						conact.getEndTime() >= this.getStartTime() && conact.getEndTime() <= this.getEndTime())) {
+					throw new ConflictException();
+				}
 			}
 		}
 	}
