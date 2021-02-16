@@ -175,7 +175,7 @@ public class WolfScheduler {
 			schedule.add(addevent);
 			return true;
 		} catch(ConflictException e) {
-			throw new IllegalArgumentException("The event cannot not be added due to a conflict.");
+			throw new IllegalArgumentException("The event cannot be added due to a conflict.");
 		}
 	}
 
