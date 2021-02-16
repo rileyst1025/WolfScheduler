@@ -6,7 +6,24 @@ package edu.ncsu.csc216.wolf_scheduler.course;
  * @author rsthoma5
  *
  */
-public abstract class Activity {
+public abstract class Activity implements Conflict {
+
+	/**
+	 * Compares Activity to another given activity and throws an exception if the two classes have conflicting times
+	 * @param conact the activity to check conflict with
+	 * @throws ConflictException if the two activities have conflicting times
+	 */
+	@Override
+	public void checkConflict(Activity conact) throws ConflictException {
+		for(int i = 0; i < this.getMeetingDays().length(); i++) {
+			if(conact.getMeetingDays().indexOf(this.getMeetingDays().charAt(i)) != -1 &&
+					(conact.getStartTime() >= this.getStartTime() && conact.getStartTime() <= this.getEndTime() || 
+					conact.getEndTime() >= this.getStartTime() && conact.getEndTime() <= this.getEndTime())) {
+				throw new ConflictException();
+			}
+		}
+	}
+		
 
 	/** Course's title. */
 	private String title;

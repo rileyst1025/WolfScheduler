@@ -136,15 +136,6 @@ public class WolfScheduler {
 			schedule.add(addcourse);
 			return true;
 		}
-//		for(int i = 0; i < schedule.size(); i++) {
-//			for(int d = 0; d < addcourse.getMeetingDays().length(); d++) {
-//				if(schedule.get(i).getMeetingDays().indexOf(addcourse.getMeetingDays().charAt(d)) != -1 && 
-//						addcourse.getStartTime() >= schedule.get(i).getStartTime() && addcourse.getStartTime() <= schedule.get(i).getEndTime() || 
-//							addcourse.getEndTime() >= schedule.get(i).getStartTime() && addcourse.getEndTime() <= schedule.get(i).getEndTime()) {
-//					throw new IllegalArgumentException("This course cannot be added due to conflict");
-//				}
-//			}
-//		}
 		schedule.add(addcourse);
 		return true;
 	}
@@ -172,15 +163,6 @@ public class WolfScheduler {
 				throw new IllegalArgumentException("You have already created an event called " + addevent.getTitle());
 			}
 		}
-//		for(int i = 0; i < schedule.size(); i++) {
-//			for(int d = 0; d < addevent.getMeetingDays().length(); d++) {
-//				if(schedule.get(i).getMeetingDays().indexOf(addevent.getMeetingDays().charAt(d)) != -1 && 
-//						addevent.getStartTime() >= schedule.get(i).getStartTime() && addevent.getStartTime() <= schedule.get(i).getEndTime() || 
-//							addevent.getEndTime() >= schedule.get(i).getStartTime() && addevent.getEndTime() <= schedule.get(i).getEndTime()) {
-//					throw new IllegalArgumentException("This course cannot be added due to conflict");
-//				}
-//			}
-//		}
 		schedule.add(addevent);
 		return true;
 	}
