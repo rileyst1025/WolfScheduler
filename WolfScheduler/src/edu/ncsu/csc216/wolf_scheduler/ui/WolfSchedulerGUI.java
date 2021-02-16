@@ -31,7 +31,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 import edu.ncsu.csc216.wolf_scheduler.course.Course;
 import edu.ncsu.csc216.wolf_scheduler.scheduler.WolfScheduler;
 
@@ -539,10 +538,7 @@ public class WolfSchedulerGUI extends JFrame {
 					} catch (HeadlessException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (ConflictException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					} 
 				}
 				updateTables();
 			} else if (e.getSource() == btnRemoveCourse) {
@@ -657,9 +653,6 @@ public class WolfSchedulerGUI extends JFrame {
 						message = "The event is invalid";
 					}
 					JOptionPane.showMessageDialog(WolfSchedulerGUI.this, message);
-				} catch (ConflictException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 			

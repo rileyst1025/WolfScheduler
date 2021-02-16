@@ -122,9 +122,8 @@ public class WolfScheduler {
 	 * @param name the name of course to be added
 	 * @param section the section of course to be added
 	 * @return true if course can be added, false if it cannot
-	 * @throws ConflictException if there is a schedule conflict with the course being added
 	 */
-	public boolean addCourseToSchedule(String name, String section)throws ConflictException {
+	public boolean addCourseToSchedule(String name, String section){
 		Course addcourse = getCourseFromCatalog(name, section);
 		if(addcourse == null) {
 			return false;
@@ -143,7 +142,7 @@ public class WolfScheduler {
 			schedule.add(addcourse);
 			return true;
 		} catch(ConflictException e) {
-			throw new ConflictException("The course could not be added due to conflict.");
+			throw new IllegalArgumentException("The course could not be added due to conflict.");
 		}
 	}
 	
@@ -158,7 +157,7 @@ public class WolfScheduler {
 	 * @return true if event can be added
 	 * @throws ConflictException if there is a schedule conflict with the event being added
 	 */
-	public boolean addEventToSchedule(String title, String meetingDays, int startTime, int endTime, int weeklyRepeat, String eventDetails) throws ConflictException{
+	public boolean addEventToSchedule(String title, String meetingDays, int startTime, int endTime, int weeklyRepeat, String eventDetails) {
 		if(title == null || "".equals(title) || startTime > endTime) {
 			throw new IllegalArgumentException("The event is Invalid");
 		}
@@ -176,7 +175,7 @@ public class WolfScheduler {
 			schedule.add(addevent);
 			return true;
 		} catch(ConflictException e) {
-			throw new ConflictException("The event could not be added due to conflict.");
+			throw new IllegalArgumentException("The event could not be added due to conflict.");
 		}
 	}
 

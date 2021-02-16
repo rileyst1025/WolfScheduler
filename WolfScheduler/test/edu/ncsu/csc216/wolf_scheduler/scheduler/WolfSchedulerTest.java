@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc216.wolf_scheduler.course.Activity;
-import edu.ncsu.csc216.wolf_scheduler.course.ConflictException;
 import edu.ncsu.csc216.wolf_scheduler.course.Course;
 
 /**
@@ -118,7 +117,7 @@ public class WolfSchedulerTest {
 		//Attempt to add a course that doesn't exist
 		try {
 			assertFalse(ws.addCourseToSchedule("CSC 492", "001"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(0, ws.getScheduledActivities().length);
@@ -129,7 +128,7 @@ public class WolfSchedulerTest {
 		//Attempt to add a course that does exist
 		try {
 			assertTrue(ws.addCourseToSchedule(NAME, SECTION));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(1, ws.getScheduledActivities().length);
@@ -149,15 +148,13 @@ public class WolfSchedulerTest {
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertEquals("You are already enrolled in CSC 216", e.getMessage());
-		} catch(ConflictException e) {
-			fail(e.getMessage());
 		}
 		
 		//Attempt to add a course with a time conflict
 		try {
 			ws.addCourseToSchedule("CSC 116", "002");
 			ws.addCourseToSchedule("CSC 230", "001");
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			assertEquals("The course could not be added due to conflict.", e.getMessage());
 		}
 	}
@@ -171,7 +168,7 @@ public class WolfSchedulerTest {
 		
 		try {
 			ws.addEventToSchedule(EVENT_TITLE, EVENT_MEETING_DAYS, EVENT_START_TIME, EVENT_END_TIME, EVENT_WEEKLY_REPEAT, EVENT_DETAILS);
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 	
@@ -188,18 +185,16 @@ public class WolfSchedulerTest {
 		
 		//Attempt to add an event with the same title
 		try {
-			ws.addEventToSchedule(EVENT_TITLE, EVENT_MEETING_DAYS, EVENT_START_TIME, EVENT_END_TIME, EVENT_WEEKLY_REPEAT, EVENT_DETAILS);
+			ws.addEventToSchedule(EVENT_TITLE, EVENT_MEETING_DAYS, 1200, 1300, EVENT_WEEKLY_REPEAT, EVENT_DETAILS);
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertEquals("You have already created an event called Exercise", e.getMessage());
-		} catch(ConflictException e) {
-			assertEquals("The event could not be added due to conflict.", e.getMessage());
-		}
+		} 
 		
 		//Attempt to add an event with conflicting times
 		try {
 			ws.addEventToSchedule("Breakfast", EVENT_MEETING_DAYS, EVENT_END_TIME, 1000, EVENT_WEEKLY_REPEAT, "Yummy");
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			assertEquals("The event could not be added due to conflict.", e.getMessage());
 		}
 	}
@@ -220,7 +215,7 @@ public class WolfSchedulerTest {
 			assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
 			ws.addEventToSchedule(EVENT_TITLE, EVENT_MEETING_DAYS, EVENT_START_TIME, EVENT_END_TIME, EVENT_WEEKLY_REPEAT, EVENT_DETAILS);
 			assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(4, ws.getScheduledActivities().length);
@@ -255,7 +250,7 @@ public class WolfSchedulerTest {
 		//Check that removing all doesn't break future adds
 		try {
 			assertTrue(ws.addCourseToSchedule("CSC 230", "001"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(1, ws.getScheduledActivities().length);
@@ -274,7 +269,7 @@ public class WolfSchedulerTest {
 			assertTrue(ws.addCourseToSchedule(NAME, SECTION));
 			assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
 			assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(3, ws.getScheduledActivities().length);
@@ -287,7 +282,7 @@ public class WolfSchedulerTest {
 		//Check that resetting doesn't break future adds
 		try {
 			assertTrue(ws.addCourseToSchedule("CSC 230", "001"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(1, ws.getScheduledActivities().length);
@@ -372,7 +367,7 @@ public class WolfSchedulerTest {
 			assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
 			ws.addEventToSchedule("Lunch", "MWF", 1320, 1400, 1, "Food");
 			assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		
@@ -413,7 +408,7 @@ public class WolfSchedulerTest {
 			assertTrue(ws.addCourseToSchedule("CSC 226", "001"));
 			ws.addEventToSchedule("Lunch", "MWF", 1320, 1400, 1, "Food");
 			assertTrue(ws.addCourseToSchedule("CSC 116", "002"));
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		
@@ -484,7 +479,7 @@ public class WolfSchedulerTest {
 		try {
 			ws.addCourseToSchedule("CSC 216", "002");
 			ws.addCourseToSchedule("CSC 226", "001");
-		} catch(ConflictException e) {
+		} catch(IllegalArgumentException e) {
 			fail(e.getMessage());
 		}
 		assertEquals(2, ws.getScheduledActivities().length);
